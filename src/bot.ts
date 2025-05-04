@@ -1,17 +1,11 @@
-import {
-  Client,
-  GatewayIntentBits,
-  Collection,
-  Message,
-} from "discord.js";
+import { Client, GatewayIntentBits, Collection, Message } from "discord.js";
 
-import { Command } from "./command";
-import { EventListener } from "./eventListener";
-import { CommandFactory } from "./commandFactory";
-import { EventListenerFactory } from "./eventListenerFactory";
+import { Command } from "./command.js";
+import { EventListener } from "./eventListener.js";
+import { CommandFactory } from "./commandFactory.js";
+import { EventListenerFactory } from "./eventListenerFactory.js";
 
 export class Bot {
-  
   private client: Client;
   private token: string;
 
@@ -36,7 +30,7 @@ export class Bot {
       this.registerCommand(command);
     }
 
-    // Register all event actions    
+    // Register all event actions
     this.eventListeners = new Collection();
     for (const eventListeners of EventListenerFactory.createEventListeners()) {
       this.registerEventListener(eventListeners);
@@ -50,7 +44,9 @@ export class Bot {
       try {
         const guilds = this.client.guilds.cache;
         await Promise.all(
-          guilds.map((guild) => guild.commands.create(command.getCommandData()))
+          guilds.map((guild) =>
+            guild.commands.create(command.getCommandData()),
+          ),
         );
         console.log(`Slash command ${command.name} registered.`);
       } catch (error) {
@@ -82,10 +78,8 @@ export class Bot {
   // Handle legacy commands
   private handleLegacyCommands(): void {
     this.client.on("messageCreate", (msg: Message) => {
-
       const [command, ...args] = msg.content.split(" ");
       this.commands.get(command)?.action(msg);
-
     });
   }
 

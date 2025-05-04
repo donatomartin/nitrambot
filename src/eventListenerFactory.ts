@@ -1,5 +1,5 @@
-import { EventListener } from "./eventListener";
-import { State } from "./state";
+import { EventListener } from "./eventListener.js";
+import { State } from "./state.js";
 
 export class EventListenerFactory {
   public static createEventListeners(): EventListener[] {
@@ -15,13 +15,16 @@ export class EventListenerFactory {
           createdAt: message.createdAt,
         });
 
-        if (message.author.bot)
-          return;
+        if (message.author.bot) return;
 
-        if (message.content.toLowerCase().replace(/ /g, "").includes("ihatejavascript")) {
+        if (
+          message.content
+            .toLowerCase()
+            .replace(/ /g, "")
+            .includes("ihatejavascript")
+        ) {
           State.getInstance().timesSomeoneSaidIHateJavascript++;
         }
-
       }),
 
       // Message Update

@@ -1,5 +1,5 @@
-import { Command } from "./command";
-import { State } from "./state";
+import { Command } from "./command.js";
+import { State } from "./state.js";
 
 export class CommandFactory {
   public static createCommands(): Command[] {
@@ -17,13 +17,13 @@ export class CommandFactory {
         "Replies with the current stats",
         async (interaction: any) => {
           await interaction.reply(
-`
+            `
 *Bot Stats*:
 Times someone said 'I hate javascript'
 ${State.getInstance().timesSomeoneSaidIHateJavascript}
-`
+`,
           );
-        }
+        },
       ),
     ];
 
