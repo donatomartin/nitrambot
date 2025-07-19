@@ -1,0 +1,25 @@
+services:
+
+  nitrambot:
+    image: ghcr.io/donatomartin/nitrambot/nitrambot:latest
+    build: .
+    container_name: nitrambot
+    restart: unless-stopped
+    networks:
+      - nitrambot-network
+
+  database:
+    image: mongo:latest
+    restart: unless-stopped
+    volumes:
+      - nitrambot-mongodb-data:/data/db
+    networks:
+      - nitrambot-network
+      
+volumes:
+  nitrambot-mongodb-data:
+    driver: local
+
+networks:
+  nitrambot-network:
+    driver: bridge
