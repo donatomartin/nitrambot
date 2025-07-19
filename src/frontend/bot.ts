@@ -1,9 +1,9 @@
 import { Client, GatewayIntentBits, Collection, Message } from "discord.js";
 
-import { Command } from "./command.js";
-import { EventListener } from "./eventListener.js";
-import { CommandFactory } from "./commandFactory.js";
-import { EventListenerFactory } from "./eventListenerFactory.js";
+import { Command } from "./command";
+import { EventListener } from "./eventListener";
+import { CommandFactory } from "./commandFactory";
+import { EventListenerFactory } from "./eventListenerFactory";
 
 export class Bot {
   private client: Client;

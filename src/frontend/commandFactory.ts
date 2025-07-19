@@ -1,5 +1,11 @@
-import { Command } from "./command.js";
-import { State } from "./state.js";
+import { Command } from "./command";
+
+import mongoose from "mongoose";
+
+mongoose
+  .connect(process.env.MONGODB_URI as string)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.error("MongoDB connection error:", error));
 
 export class CommandFactory {
   public static createCommands(): Command[] {
@@ -18,10 +24,9 @@ export class CommandFactory {
         async (interaction: any) => {
           await interaction.reply(
             `
-*Bot Stats*:
-Times someone said 'I hate javascript'
-${State.getInstance().timesSomeoneSaidIHateJavascript}
-`,
+            *Bot Stats*:
+            Times someone said 'I hate javascript'
+            `,
           );
         },
       ),

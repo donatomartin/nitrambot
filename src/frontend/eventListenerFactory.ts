@@ -1,5 +1,4 @@
-import { EventListener } from "./eventListener.js";
-import { State } from "./state.js";
+import { EventListener } from "./eventListener";
 
 export class EventListenerFactory {
   public static createEventListeners(): EventListener[] {
@@ -23,7 +22,7 @@ export class EventListenerFactory {
             .replace(/ /g, "")
             .includes("ihatejavascript")
         ) {
-          State.getInstance().timesSomeoneSaidIHateJavascript++;
+          //State.getInstance().timesSomeoneSaidIHateJavascript++;
         }
       }),
 
