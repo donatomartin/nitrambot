@@ -3,6 +3,9 @@ services:
   nitrambot:
     image: ghcr.io/donatomartin/nitrambot/nitrambot:latest
     build: .
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
     container_name: nitrambot
     restart: unless-stopped
     networks:
