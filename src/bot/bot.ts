@@ -1,19 +1,20 @@
 import { Client, GatewayIntentBits, Collection, Message } from "discord.js";
 
-import { Command } from "./command";
-import { EventListener } from "./eventListener";
-import { CommandFactory } from "./commandFactory";
-import { EventListenerFactory } from "./eventListenerFactory";
+import { Command, CommandFactory } from "./commandFactory";
+import { EventListener, EventListenerFactory } from "./eventListenerFactory";
+import { Service } from "../service";
 
 export class Bot {
   private client: Client;
   private token: string;
+  private service: Service;
 
   private commands: Collection<string, Command>;
   private eventListeners: Collection<string, EventListener>;
 
-  constructor(token: string) {
+  constructor(token: string, service: Service) {
     this.token = token;
+    this.service = service;
 
     // Create a new Discord client
     this.client = new Client({
@@ -26,13 +27,15 @@ export class Bot {
 
     // Register all commands
     this.commands = new Collection();
-    for (const command of CommandFactory.createCommands()) {
+    for (const command of CommandFactory.createCommands(this.service)) {
       this.registerCommand(command);
     }
 
     // Register all event actions
     this.eventListeners = new Collection();
-    for (const eventListeners of EventListenerFactory.createEventListeners()) {
+    for (const eventListeners of EventListenerFactory.createEventListeners(
+      this.service,
+    )) {
       this.registerEventListener(eventListeners);
     }
   }

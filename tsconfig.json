@@ -5,6 +5,7 @@
             "es6", "dom"
         ],
         "moduleResolution": "node",
+        "module": "CommonJS",
         "outDir": "./dist",
         "rootDir": "./src",
         "resolveJsonModule": true,

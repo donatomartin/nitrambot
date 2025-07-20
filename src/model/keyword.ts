@@ -1,7 +1,11 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const keywordSchema = new mongoose.Schema({
+export interface Keyword {
+  keyword: string;
+}
+
+export const keywordSchema = new Schema<Keyword>({
   keyword: { type: String, required: true, unique: true },
 });
 
-export default mongoose.model("Keyword", keywordSchema);
+export const keywordModel = model<Keyword>("Keyword", keywordSchema);

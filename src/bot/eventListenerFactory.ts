@@ -1,7 +1,19 @@
-import { EventListener } from "./eventListener";
+import { Service } from "../service";
+
+type EventListenerCallback = (interaction: any) => Promise<void>;
+
+export class EventListener {
+  public name: string;
+  public action: EventListenerCallback;
+
+  constructor(name: string, action: any) {
+    this.name = name;
+    this.action = action;
+  }
+}
 
 export class EventListenerFactory {
-  public static createEventListeners(): EventListener[] {
+  public static createEventListeners(service: Service): EventListener[] {
     const eventListeners = [
       // Message Create
       new EventListener("messageCreate", (message: any) => {
@@ -16,14 +28,21 @@ export class EventListenerFactory {
 
         if (message.author.bot) return;
 
-        if (
-          message.content
-            .toLowerCase()
-            .replace(/ /g, "")
-            .includes("ihatejavascript")
-        ) {
-          //State.getInstance().timesSomeoneSaidIHateJavascript++;
-        }
+        service.findKeywords().then((keywords: any[]) => {
+          for (const keyword of keywords.map((k) => k.keyword)) {
+            if (
+              message.content
+                .toLowerCase()
+                .replace(/ /g, "")
+                .includes(keyword.toLowerCase().replace(/ /g, ""))
+            ) {
+              service.addKeywordUse({
+                keyword,
+                username: message.author.username,
+              });
+            }
+          }
+        });
       }),
 
       // Message Update

@@ -1,10 +1,10 @@
-import { Bot } from "./frontend/bot";
+import { Bot } from "./bot/bot";
 import * as express from "express";
 import mongoose from "mongoose";
 
-import { KeywordRepository } from "./repositories/keywordsRepository";
-import { KeywordsService } from "./services/keywordsService";
-import { KeywordsController } from "./controllers/keywordsController";
+import { Repository } from "./repository";
+import { Service } from "./service";
+import { Controller } from "./controller";
 
 const app: express.Application = express();
 app.use(express.json());
@@ -13,13 +13,13 @@ const port = 8000;
 const mongouri = process.env.MONGODB_URI as string;
 mongoose.connect(mongouri);
 
-const keywordRepository = new KeywordRepository(mongoose, mongouri);
-const keywordsService = new KeywordsService(keywordRepository);
-new KeywordsController(app, keywordsService);
+const keywordRepository = new Repository(mongoose, mongouri);
+const keywordsService = new Service(keywordRepository);
+new Controller(app, keywordsService);
 
 // bot.ts
 const botToken = process.env.DISCORD_TOKEN as string;
-const bot = new Bot(botToken);
+const bot = new Bot(botToken, keywordsService);
 
 // Start the bot
 bot.start();
